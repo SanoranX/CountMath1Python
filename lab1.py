@@ -117,9 +117,11 @@ def get_max_element_in_column(input_matrix, number_of_column):
 # Печать матрицы в комфортном для чтения виде
 def print_matrix(input_matrix, decimals):
     for i in range(len(input_matrix)):
+        output_matrix = '| '
         for j in range(len(input_matrix[i])):
-            print('|', "%10.4f" % (input_matrix[i][j]))
-        print()
+            output_matrix += (input_matrix[i][j].__str__() + "   ")
+        output_matrix += "|"
+        print(output_matrix)
 
 
 # Create residual vector (вектор невязок)
