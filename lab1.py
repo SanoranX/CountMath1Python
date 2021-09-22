@@ -33,7 +33,9 @@ def get_matrix():
 
 # Получение матрицы из файла
 def get_matrix_from_file(filename):
+    # Открываем файл по пути
     with open(filename) as f:
+        # Читаем оттуда матрицу
         matrix_from_file = [list(map(float, row.split())) for row in f.readlines()]
     print('Матрица:')
     print_matrix(matrix_from_file, 5)
@@ -57,14 +59,17 @@ def do_gauss_method(input_matrix):
     return input_answer_matrix
 
 
-# Проверяем матрицу
+# Проверяем является ли матрица квадратной и есть ли у неё решения
 def check_square_matrix(input_matrix):
     print('Проверка есть ли решения у матрицы')
     for i in range(len(input_matrix)):
+        # Проверка является ли матрица квадратной
         if len(input_matrix) + 1 != len(input_matrix[i]):
             raise Exception('Размер матрицы неверен.')
         count = 0
+        # input_matrix[i]-1 так как у нас последний элемент не является частью матрицы
         for j in range(len(input_matrix[i])-1):
+            # Считаем количество нулей для того, чтобы понять является ли матрица решаемой
             if input_matrix[i][j] == 0:
                 count += 1
         if count == len(input_matrix[i])-1:
@@ -72,9 +77,11 @@ def check_square_matrix(input_matrix):
     print('Проверка прошла успешно.')
 
 
+# Создаём треугольную матрицу при помощи простейших действий с матрицами.
+# Используется метод выбора главного элемента по столбцам
 def do_triangle_matrix(input_matrix):
     print('Создание треугольной матрицы')
-    length_of_matrix = len(input_matrix)  # = кол-во строк
+    length_of_matrix = len(input_matrix)  # Количество строк матрицы
     for k in range(length_of_matrix - 1):
         print('Итерация №', k + 1)
         print('Матрица до: ')
@@ -91,7 +98,7 @@ def do_triangle_matrix(input_matrix):
     return length_of_matrix
 
 
-# Проверка на вырожденность матрицы
+# Проверка на вырожденность матрицы, т.е является ли определитель матрицы равным нулю.
 def is_singular(input_matrix):
     print('Проверка на вырожденность')
     if count_determinant_for_square_matrix(input_matrix) == 0:
@@ -104,7 +111,10 @@ def is_singular(input_matrix):
 def get_max_element_in_column(input_matrix, number_of_column):
     max_element = input_matrix[number_of_column][number_of_column]
     max_row = number_of_column
+    # Пробегаемся по всем стобцам матрицы
     for j in range(number_of_column + 1, len(input_matrix)):
+        # Вычисляем главный элемент по модулю. Если модуль элемента наибольший, то это и будет являться главным
+        # элементом матрицы.
         if abs(input_matrix[j][number_of_column]) > abs(max_element):
             max_element = input_matrix[j][number_of_column]
             max_row = j
@@ -144,6 +154,9 @@ def do_residual_vector(input_matrix, input_answer_matrix):
 
 
 # Считаем детерминант матрицы
+# TODO: Починить формулу
+# (-1)^k * (произведение элементов диагонали).
+# K - количество перестановок, не итераций.
 def count_determinant_for_square_matrix(input_matrix):
     determinant = 1
     for i in range(len(input_matrix)):

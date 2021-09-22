@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbd38500-8c0c-45e5-8dc8-d2172d33e129" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/lab1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lab1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/19x20.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TestFiles/19x20.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab1.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +45,7 @@
       <recent name="C:\Users\chann\PycharmProjects\lab1" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\SanoranX\PycharmProjects\count_math_lab1\TestFiles" />
       <recent name="C:\Users\SanoranX\PycharmProjects\count_math_lab1" />
       <recent name="C:\Users\chann\PycharmProjects\lab1" />
     </key>
