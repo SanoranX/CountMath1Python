@@ -1,9 +1,12 @@
 # Получение матрицы вводом от пользователя
 # Главное меню
+iteration_count = 0
+
+
 def get_matrix():
     new_matrix = []
     print('Как вводить матрицу?')
-    print('[0] Ввести матрицу из файла (Файл желательно, чтобы находился прям в одной директории с программой')
+    print('[0] Ввести матрицу из файла')
     print('[1] Ввести матрицу самостоятельно вводом с клавиатуры в программу')
 
     answer = int(input())
@@ -18,7 +21,7 @@ def get_matrix():
                     a.append(float(input()))
                 new_matrix.append(a)
             print('Ваша матрица: ')
-            print(new_matrix)
+            print_matrix(new_matrix)
             return new_matrix
         else:
             print('Матрица должна быть 2*2 3*3 или больше.')
@@ -38,23 +41,26 @@ def get_matrix_from_file(filename):
         # Читаем оттуда матрицу
         matrix_from_file = [list(map(float, row.split())) for row in f.readlines()]
     print('Матрица:')
-    print_matrix(matrix_from_file, 5)
+    print_matrix(matrix_from_file)
     return matrix_from_file
 
 
 # Реализация метода Гаусса
 def do_gauss_method(input_matrix):
-    check_square_matrix(input_matrix)
-    is_singular(input_matrix)
+    check_square_matrix(input_matrix)  # Проверяем является ли матрица квадратной путём подсчёта строк и столбцов
     print('Начинаем метод Гаусса')
     length_of_matrix = len(input_matrix)
-    do_triangle_matrix(input_matrix)
-    input_answer_matrix = [0 for i in range(length_of_matrix)]
+    do_triangle_matrix(input_matrix)  # Приводим матрицу к треугольному виду
+    is_singular(input_matrix)  # Проверяем является ли матрица вырожденной (D = 0)
+    print('Матрица перед вычислениями: ')
+    print_matrix(input_matrix)
+    print('Конец матрицы перед вычислениями')
+    input_answer_matrix = [0 for i in range(length_of_matrix)]  # Решаем СЛАУ по формулам
     for k in range(length_of_matrix - 1, -1, -1):
         input_answer_matrix[k] = (input_matrix[k][-1] - sum(
             [input_matrix[k][j] * input_answer_matrix[j] for j in range(k + 1, length_of_matrix)])) / input_matrix[k][k]
     print('Ответы: ')
-    for i in range(len(input_answer_matrix)):
+    for i in range(len(input_answer_matrix)):  # Выводим все ответы
         print('x[', i + 1, '] =', "%5.3f" % input_answer_matrix[i])
     return input_answer_matrix
 
@@ -68,11 +74,11 @@ def check_square_matrix(input_matrix):
             raise Exception('Размер матрицы неверен.')
         count = 0
         # input_matrix[i]-1 так как у нас последний элемент не является частью матрицы
-        for j in range(len(input_matrix[i])-1):
+        for j in range(len(input_matrix[i]) - 1):
             # Считаем количество нулей для того, чтобы понять является ли матрица решаемой
             if input_matrix[i][j] == 0:
                 count += 1
-        if count == len(input_matrix[i])-1:
+        if count == len(input_matrix[i]) - 1:
             raise Exception('Ошибка: у матрицы нет решений')
     print('Проверка прошла успешно.')
 
@@ -85,16 +91,16 @@ def do_triangle_matrix(input_matrix):
     for k in range(length_of_matrix - 1):
         print('Итерация №', k + 1)
         print('Матрица до: ')
-        print_matrix(input_matrix, 5)
+        print_matrix(input_matrix)
         get_max_element_in_column(input_matrix, k)
         print('Матрицы после: ')
-        print_matrix(input_matrix, 5)
+        print_matrix(input_matrix)
         for i in range(k + 1, length_of_matrix):
             div = input_matrix[i][k] / input_matrix[k][k]
             input_matrix[i][-1] -= div * input_matrix[k][-1]
             for j in range(k, length_of_matrix):
                 input_matrix[i][j] -= div * input_matrix[k][j]
-        print_matrix(input_matrix, 5)
+        print_matrix(input_matrix)
     return length_of_matrix
 
 
@@ -120,12 +126,12 @@ def get_max_element_in_column(input_matrix, number_of_column):
             max_row = j
     if max_row != number_of_column:
         input_matrix[number_of_column], input_matrix[max_row] = input_matrix[max_row], input_matrix[number_of_column]
-    print('The max element between not fixed rows is', "%.4f" % max_element, 'in row', max_row + 1)
+    print('Максимальный элемент: ', "%.4f" % max_element, 'в строке: ', max_row + 1)
     return input_matrix
 
 
 # Печать матрицы в комфортном для чтения виде
-def print_matrix(input_matrix, decimals):
+def print_matrix(input_matrix):
     for i in range(len(input_matrix)):
         output_matrix = '| '
         for j in range(len(input_matrix[i])):
