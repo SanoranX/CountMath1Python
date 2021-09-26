@@ -126,6 +126,8 @@ def get_max_element_in_column(input_matrix, number_of_column):
             max_row = j
     if max_row != number_of_column:
         input_matrix[number_of_column], input_matrix[max_row] = input_matrix[max_row], input_matrix[number_of_column]
+        global iteration_count
+        iteration_count += 1
     print('Максимальный элемент: ', "%.4f" % max_element, 'в строке: ', max_row + 1)
     return input_matrix
 
@@ -160,13 +162,14 @@ def do_residual_vector(input_matrix, input_answer_matrix):
 
 
 # Считаем детерминант матрицы
-# TODO: Починить формулу
-# (-1)^k * (произведение элементов диагонали).
-# K - количество перестановок, не итераций.
+# Так как мы переставляем строки, то нам нужно будет поменять знак у определителя.
+# -1 в степени кол-ва перестановок * на произведение диагональных элементов матрицы
 def count_determinant_for_square_matrix(input_matrix):
     determinant = 1
+    global iteration_count
     for i in range(len(input_matrix)):
         determinant *= input_matrix[i][i]
+    determinant *= float(pow(-1, iteration_count))
     print('Детерминант вашей матрицы: =', round(determinant, 5))
     return round(determinant, 5)
 
