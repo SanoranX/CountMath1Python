@@ -55,7 +55,10 @@ def do_gauss_method(input_matrix):
     print('Матрица перед вычислениями: ')
     print_matrix(input_matrix)
     print('Конец матрицы перед вычислениями')
-    input_answer_matrix = [0 for i in range(length_of_matrix)]  # Решаем СЛАУ по формулам
+    # Создаём массив с ответами (Столько же ответов, сколько и строк в матрице)
+    input_answer_matrix = [0 for i in range(length_of_matrix)]
+    # Начинаем решать уравнения начиная с третьего ряда, постепенно подставляя результат в
+    # последующие уравнения (Так как матрица у нас диагональная)
     for k in range(length_of_matrix - 1, -1, -1):
         input_answer_matrix[k] = (input_matrix[k][-1] - sum(
             [input_matrix[k][j] * input_answer_matrix[j] for j in range(k + 1, length_of_matrix)])) / input_matrix[k][k]
@@ -92,9 +95,13 @@ def do_triangle_matrix(input_matrix):
         print('Итерация №', k + 1)
         print('Матрица до: ')
         print_matrix(input_matrix)
+        # Получаем максимальный элемент в столбце (Значение столбца по циклу) и
+        # делаем перестановки в том же методе.
+        # Там же запоминаем, сколько перестановок было в целом. Пригодится для вычисления детерминанта
         get_max_element_in_column(input_matrix, k)
         print('Матрицы после: ')
         print_matrix(input_matrix)
+        # Делаем простейшие действия с матрицей для того, чтобы привести её к квадратному виду.
         for i in range(k + 1, length_of_matrix):
             div = input_matrix[i][k] / input_matrix[k][k]
             input_matrix[i][-1] -= div * input_matrix[k][-1]
@@ -107,14 +114,17 @@ def do_triangle_matrix(input_matrix):
 # Проверка на вырожденность матрицы, т.е является ли определитель матрицы равным нулю.
 def is_singular(input_matrix):
     print('Проверка на вырожденность')
+    # Если детерминант равен нулю, то решений либо нет, либо их бесконечное множество. Сообщаем об этом пользователю.
     if count_determinant_for_square_matrix(input_matrix) == 0:
         raise Exception('Ваша матрица вырожденная')
+    # Если детерминант матрицы не равен нулю, то решений у нас соответственно всего 1
     else:
         print('Проверка на вырожденность успешно пройдена')
 
 
 # Ищем главный элемент в столбце
 def get_max_element_in_column(input_matrix, number_of_column):
+    # Нужные переменные для сравнения
     max_element = input_matrix[number_of_column][number_of_column]
     max_row = number_of_column
     # Пробегаемся по всем стобцам матрицы
@@ -142,7 +152,10 @@ def print_matrix(input_matrix):
         print(output_matrix)
 
 
-# Create residual vector (вектор невязок)
+# Создаём вектор невязок
+# Разность между левой и правыми частями уравнения при постановке в них решения x*.
+# Погрешность возникает в результате:
+# Исходных данных, математической моделияё
 def do_residual_vector(input_matrix, input_answer_matrix):
     big_matrix = []
     little_matrix = []
@@ -170,10 +183,12 @@ def count_determinant_for_square_matrix(input_matrix):
     for i in range(len(input_matrix)):
         determinant *= input_matrix[i][i]
     determinant *= float(pow(-1, iteration_count))
+    # Округляем детерминант
     print('Детерминант вашей матрицы: =', round(determinant, 5))
     return round(determinant, 5)
 
 
+# Оборачиваем всё в try-catch для того, чтобы отлавливать ошибки.
 try:
     main_matrix = get_matrix()
     answer_matrix = do_gauss_method(main_matrix)
